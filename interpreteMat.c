@@ -5,14 +5,14 @@
 #include "system.h"
 
 
-void interpreteMatD(char *arg){
+void interpreteMatD(char *nombreFichero){
 
     //en esta función se inicia en interprete, si llega un archivo, primero se ejecuta su analisis y luego se deja el interprete abierto a uso
     
-    if (arg!=NULL)
+    if (nombreFichero!=NULL)
     {
         //llegó algo que ejecutar, puede ser la opción -h, que es la opción para que aparezca la ayuda, o un fichero a cargar
-        if (strcmp(arg, "-h") == 0) {
+        if (strcmp(nombreFichero, "-h") == 0) {
             //help();
         } else {
             //cargar(arg);

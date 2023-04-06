@@ -1,13 +1,15 @@
 #ifndef ABB_H
 #define ABB_H
-#include "definiciones.h"
+
+#include "interpreteMat.h"
 
 /**
  * Tipo de dato abstracto para arbol binario con clave de
  * ordenacion y elemento de celda.
  */
 
-typedef char * tipoclave; // tipo de clave
+typedef char *tipoclave;// tipo de clave
+typedef CompLexico tipoelem;
 		
 typedef struct celda * abb;//tipo opaco
 

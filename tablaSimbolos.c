@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "definiciones.h"
+#include "system.h"
+//#include "bison.tab.h"
 
 //variable global que almacena la tabla de simbolos
 abb tablaSimbolos;
@@ -18,23 +20,20 @@ void _printTabla(abb A);
 void initTabla(){
     //inicializamos la tabla de simbolos
     crear(&tablaSimbolos);
-
-    //aqui se deberian cargar todas las palabras reservadas a la tabla de simbolos
-    //se debe ordenar la inserción para equilibrar el arbol binario
-    /*
-        CHAR
-        DOUBLE
-        FLOAT
-        FOREACH
-
-        IMPORT -PRIMER NODO
-
-        INT
-        RETURN
-        VOID
-        WHILE
-    */
-    tipoelem palabrasClave[] = {
+    tipoelem inicializacion[] = {
+            {CONST, "pi", .valor.var=3.14159265358979323846},
+            {CONST, "e", .valor.var=2.7182818284590452354},
+            {CMND0, "clear", .valor.funcptr=clear},
+            {CMND0, "salir", .valor.funcptr=salir},
+            {CMND0, "help", .valor.funcptr=help},
+            {CMND0, "echo", .valor.funcptr=echo},
+            {CMND0, "tabla", .valor.funcptr=tabla},
+            {CMND0, "ws", .valor.funcptr=workSpace},
+            {CMND0, "limparws", .valor.funcptr=limpiarws},
+            {CMND1, "cargar", .valor.funcptr=cargar},
+            {CMND1, "importar", .valor.funcptr=importar},
+    };
+    CompLexico palabrasClave[] = {
         {"import", IMPORT},
         {"float", FLOAT},
         {"void", VOID},
@@ -48,7 +47,7 @@ void initTabla(){
     };
 
     //insertamos las palabras reservadas en la tabla de simbolos
-    for (int i = 0; i < (sizeof(palabrasClave) / sizeof(tipoelem)); i++) {
+    for (int i = 0; i < (sizeof(palabrasClave) / sizeof(CompLexico)); i++) {
         insertar(&tablaSimbolos, palabrasClave[i]);
     }
 
@@ -71,27 +70,27 @@ void printTabla(){
 
 //funcion recursiva privada que recorre en profundidad la tabla de simbolos
 void _printTabla(abb A){
-    tipoelem E;
+    CompLexico E;
     if (!es_vacio(A)) {
         _printTabla(izq(A));
         leer(A, &E);
-        printf("%-10s -> %d\n",E.identificador, E.valor);
+        printf("%-10s -> %d\n",E.lexema, E.valorLexico);
         _printTabla(der(A));
     }
 }
 
 //funcion pública que permite buscar un elemento en la tabla de simbolos
 //si el elemento esta en la tabla de simbolos, devuelve un valor, si no, se introduce
-void buscaElemento(tipoelem *elemento){
+void buscaElemento(CompLexico *elemento){
 
     //buscamos el elemento en la tabla de simbolos
     if(es_miembro(tablaSimbolos, *elemento)){
-        tipoelem find;
-        buscar_nodo(tablaSimbolos, elemento->identificador, &find);
-        elemento->valor = find.valor;
+        CompLexico find;
+        buscar_nodo(tablaSimbolos, elemento->lexema, &find);
+        elemento->valorLexico = find.valorLexico;
     //si no existe simplemente lo insertamos y establecemos como valor ID
     }else{
-        elemento->valor = ID;
+        elemento->valorLexico = ID;
         insertar(&tablaSimbolos, *elemento);
     }
 }

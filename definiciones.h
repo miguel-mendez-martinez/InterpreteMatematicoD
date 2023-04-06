@@ -124,11 +124,7 @@
 #define EOFVALUE -100
 
 
-// Estructura que contiene los lexemas y componentes lexicos
-typedef struct  {
-    char *identificador;
-    int valor;
-}tipoelem;
+
 
 #endif
 

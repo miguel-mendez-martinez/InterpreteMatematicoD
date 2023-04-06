@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "interpreteMat.h"
+//#include "bison.tab.h"
+
 struct celda {
     tipoelem info;
     struct celda *izq, *der;
@@ -11,7 +14,7 @@ struct celda {
 
 /*Extraer la clave de una celda */
 tipoclave _clave_elem(tipoelem *E) {
-    return E->identificador;
+    return E->lexema;
 }
 
 /* Esta funcion puente nos permite modificar el tipo de
@@ -34,11 +37,18 @@ void crear(abb *A) {
     *A = NULL;
 }
 
+void aux_destruir_elem(tipoelem *elem){
+    free(elem->lexema);
+    /*if (elem->valorLexico == LIB) {
+        dlclose(elem->valor.libhandle);
+    }*/
+}
+
 void destruir(abb *A) {
     if (*A != NULL) {
         destruir(&(*A)->izq);
         destruir(&(*A)->der);
-        free((*A)->info.identificador);
+        aux_destruir_elem(&((*A)->info));
         free(*A);
         *A = NULL;
     }
@@ -90,6 +100,7 @@ unsigned es_miembro(abb A, tipoelem E) {
     return _es_miembro_clave(A, _clave_elem(&E));
 }
 
+//si no encuentra devuelve NULL
 void buscar_nodo(abb A, tipoclave cl, tipoelem *nodo) {
     if (es_vacio(A)) {
         return;
@@ -112,9 +123,9 @@ void buscar_nodo(abb A, tipoclave cl, tipoelem *nodo) {
 void insertar(abb *A, tipoelem E) {
     if (es_vacio(*A)) {
         *A = (abb) malloc(sizeof (struct celda));
-        (*A)->info.valor = E.valor;
-        (*A)->info.identificador = malloc((strlen(E.identificador) + 1) * sizeof(char)); //añadimos 1 para que strcpy nos incluya el /0
-        strcpy((*A)->info.identificador, E.identificador);
+        (*A)->info.valorLexico = E.valorLexico;
+        (*A)->info.lexema = malloc((strlen(E.lexema) + 1) * sizeof(char)); //añadimos 1 para que strcpy nos incluya el /0
+        strcpy((*A)->info.lexema, E.lexema);
         (*A)->izq = NULL;
         (*A)->der = NULL;
         return;
@@ -127,6 +138,7 @@ void insertar(abb *A, tipoelem E) {
         insertar(&(*A)->izq, E);
     }
 }
+
 /* Funcion privada que devuelve mínimo de subárbol dcho */
 tipoelem _suprimir_min(abb * A) {//Se devuelve el elemento más a la izquierda
     abb aux;
