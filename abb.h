@@ -88,4 +88,6 @@ void suprimir(abb *A,tipoelem E);
  */
 void modificar(abb A, tipoelem nodo);
 
+void modificarNodo(abb *A, tipoclave clave, double valorMod);
+
 #endif	// ABB_H

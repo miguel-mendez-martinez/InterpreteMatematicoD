@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "lex.yy.h"
 #include "interpreteMat.h"
 #include "system.h"
+#include "bison.tab.h"
 
 
 void interpreteMatD(char *nombreFichero){
@@ -13,26 +16,11 @@ void interpreteMatD(char *nombreFichero){
     {
         //llegó algo que ejecutar, puede ser la opción -h, que es la opción para que aparezca la ayuda, o un fichero a cargar
         if (strcmp(nombreFichero, "-h") == 0) {
-            //help();
+            help();
         } else {
-            //cargar(arg);
+            cargar(nombreFichero);
         }
     }
 
     yyparse(); //funcion que activa lo implementado en byson
 }
-
-/*tipoelem compLex = {NULL, 0};
-    printf("AnalizadorSintactico operativo\n");
-    iniciarAnalizadorLexico(arg);
-    printf("----- INICIO DEL ANALISIS -----\n");
-    sigCompLexico(&compLex);
-    while (compLex.valor != EOF) {
-        if (compLex.identificador != NULL) { // Realízase esta comprobación xa que en caso de erro o lexema será NULL
-            printf("< %d, %s >\n", compLex.valor, compLex.identificador);
-        }
-        sigCompLexico(&compLex);
-    }
-    printf("-----  FIN DEL ANALISIS   -----\n");
-
-    finalizarAnalizadorLexico(&compLex);*/

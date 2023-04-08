@@ -10,6 +10,7 @@
 
 #include "interpreteMat.h"
 #include "tablaSimbolos.h"
+#include "bison.tab.h"
 #define MAX_STR_CONST 500
 %}
 
@@ -29,7 +30,7 @@ DIGITS              {DECIMAL_DIGIT}(\_?{DECIMAL_DIGIT})*
 EXPONENT            [eE][\+|\-]?{DIGITS} 
 
 ENTERO              {DIGITS}
-DECIMAL             {DIGITS}\.{DIGITS}?{EXPONENT}?|{DIGITS}{EXPONENT}|\.{DECIMAL}{EXPONENT}?
+DECIMAL             {DIGITS}\.{DIGITS}?{EXPONENT}?|{DIGITS}{EXPONENT}|\.{DIGITS}{EXPONENT}?
 
 /* Comentarios */
 LINE_COMMENT         \/\/[^\n]*      
@@ -43,8 +44,9 @@ IDENTIFIER          ({LETTER}|\_)({LETTER}|{DECIMAL_DIGIT}|\_)*
 
 INDIVIDUAL          [+\-\*/%&\|^<>=!~([{,\.)\]};:]
 
-NUM                 {ENTERO}|{DECIMAL}
-FICHERO             ({LETTER}|{DECIMAL_DIGIT})+(\.({LETTER}|{DECIMAL_DIGIT})+)+|(\/({LETTER}|{DECIMAL_DIGIT})*)*\/({LETTER}|{DECIMAL_DIGITE})+(\.({LETTER}|{DECIMAL_DIGIT})+)+
+NUMERO              {ENTERO}|{DECIMAL}
+
+FICHERO             ({LETTER}|{DECIMAL_DIGIT})+(\.({LETTER}|{DECIMAL_DIGIT})+)+|(\/({LETTER}|{DECIMAL_DIGIT})*)*\/({LETTER}|{DECIMAL_DIGIT})+(\.({LETTER}|{DECIMAL_DIGIT})+)+
 
 /* Declaramos la función que se usará para contabilizar cuantos comentarios se abren */
 %x NESTED_COMMENT 
@@ -58,34 +60,36 @@ FICHERO             ({LETTER}|{DECIMAL_DIGIT})+(\.({LETTER}|{DECIMAL_DIGIT})+)+|
 {LINE_COMMENT}
 {GENERAL_COMMENTS}
 
-
-
 "/+"                { BEGIN(NESTED_COMMENT); }
- <NESTED_COMMENT>{
+    <NESTED_COMMENT>{
     "/+"            { comment_nesting++;} /*si econtramos una apertura, si no es la primera, sumaremos 1 al contador, si es la primera, se inicia esta funcion*/
     "+"+"/"         { if(comment_nesting) comment_nesting--; /*Si enconrtamos una cadena +/ tendremos que restarle 1 al contador, y si es 0 volver al estado incial*/
-                      else BEGIN(INITIAL); }
+                        else BEGIN(INITIAL); }
     "+"+            ; /*Se ignoran las cadenas de + seguidos*/
     [^/+\n]+        ; /* Aqui entran todos los caracteres que no sean /+ o \n, de manera que se ignoren */
     [/]             ; /*Ignoramos toda barra que no vaya acompañada de un +*/
     \n              ; /*Ignoramos todos los saltos de linea*/
     /*Se elaboran reglas separadas, porque con una sola regla se descrubrió que no funcionaba del todo bien, asi que, tras investigar en diferentes páginas, esta fue la combinación que encontré para que funcionara correctamente*/
- }
+}
 
-{NUM}              yylval.numero = atof(yytext); return NUM;
-{IDENTIFICADOR}    {
-                            yylval.cadea = strdup(yytext);
-                            CompLexico comp = buscaElemento(yylval.cadea);
-                            if (comp.lexema == NULL) {
-                                return VAR;
-                            }
-                            return comp.comp_lexico;
+
+{IDENTIFIER}        {
+                        yylval.cadena = strdup(yytext);
+                        CompLexico comp = buscarLexema(yylval.cadena);
+                        if (comp.lexema == NULL) {
+                            return VAR;
                         }
-{INDIVIDUAl}       return (int) *yytext;
-{FICHERO}          yylval.cadea = strdup(yytext); return FICHERO;
+                        return comp.valorLexico;
+                    }
+{NUMERO}            { 
+                        yylval.numero = atof(yytext); 
+                        return NUM; 
+                    }
+{INDIVIDUAL}        return (int) *yytext;
+{FICHERO}           yylval.cadena = strdup(yytext); return FICHERO;
 
-.                  printf("LEXEMA DESCONOCIDO\n");
+.                  printf(ROJO"LEXEMA DESCONOCIDO"RESET"\n\n");
 
-<<EOF>>		            ejecutandoScript(0); fclose(yyin); yyrestart(stdin);
+<<EOF>>		       ejecutandoScript(0); fclose(yyin); yyrestart(stdin);
 
 %%

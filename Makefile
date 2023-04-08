@@ -1,8 +1,10 @@
 # Opciones de compilación: muestra todos los warnings (-Wall)
 CC=gcc -Wall
 
-# Carpeta das cabeceras
+# Carpeta de las cabeceras
 HEADER_FILES_DIR = .
+
+
 
 # Opciones de compilación: indica donde están los ficheros .h
 INCLUDES = -I $(HEADER_FILES_DIR)
@@ -10,21 +12,24 @@ INCLUDES = -I $(HEADER_FILES_DIR)
 # Nombre del ejecutable
 OUTPUT = interMatD23
 
+# Nombre fichero flex
+FLEX_FILE = flex.l
+# Nombre fichero bison
+BISON_FILE = bison.y
+
 # Ficheros .h
-LIB_HEADERS = definiciones.h tablaSimbolos.h abb.h lex.yy.h analizadorSintactico.h
+LIB_HEADERS = definiciones.h tablaSimbolos.h abb.h lex.yy.h interpreteMat.h bison.tab.h
 
 # Ficheros .c
-SRCS = main.c tablaSimbolos.c abb.c lex.yy.c analizadorSintactico.c 
+SRCS = main.c tablaSimbolos.c abb.c lex.yy.c interpreteMat.c bison.tab.c 
 
 # Ficheros .o: todos los .o con un análogo .c en SRCS
 OBJS = $(SRCS:.c=.o)
 
-FLEX_FILE = flex.l
-
 # REGLA 1: genera el ejecutable, dependencia de los .o
 # Tras geneerarlos borra los .o
 $(OUTPUT): $(OBJS)
-	$(CC) -o $(OUTPUT) $(OBJS)
+	$(CC) -o $(OUTPUT) $(OBJS) 
 	rm *.o
 
 # REGRA 2: geneera los .o cuando se necesita, dependencia de los .c e .h
@@ -37,6 +42,11 @@ $(OUTPUT): $(OBJS)
 flex:
 	flex $(FLEX_FILE)
 
-# REGLA 4: borra el executable
+# REGRA 4: xera o código correspondente ao ficheiro de bison
+bison:
+	bison -Wall -d $(BISON_FILE)
+	cp bison.tab_copia.h bison.tab.h
+
+# REGLA 5: borra el executable
 clean:
 	rm -f $(OUTPUT)

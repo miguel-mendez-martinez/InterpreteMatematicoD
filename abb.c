@@ -200,6 +200,20 @@ void _modificar(abb A, tipoclave cl, tipoelem nodo) {
     }
 }
 
+void modificarNodo(abb *A, tipoclave clave, double valorMod){
+    if (es_vacio(*A)) {
+        return;
+    }
+
+    int comp = _comparar_clave_elem(clave,(*A)->info);
+    if(comp == 0){
+        (*A)->info.valor.var = valorMod;
+    }else if(comp < 0){
+        modificarNodo(&(*A)->izq, clave, valorMod);
+    }else{
+        modificarNodo(&(*A)->der, clave, valorMod);
+    }
+}
 
 /* Permite modificar el nodo extrayendo del mismo la clave */
 void modificar(abb A, tipoelem nodo) {

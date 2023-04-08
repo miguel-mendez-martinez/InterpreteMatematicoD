@@ -123,8 +123,5 @@
 #define ID 500
 #define EOFVALUE -100
 
-
-
-
 #endif
 

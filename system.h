@@ -1,5 +1,5 @@
-#ifndef P3_SYSTEM_H
-#define P3_SYSTEM_H
+#ifndef SYSTEM_H
+#define SYSTEM_H
 
 double clear();
 
@@ -16,8 +16,6 @@ double workSpace();
 double limpiarws();
 
 double cargar(char *ficheiro);
-
-double importar(char *libreria);
 
 
 #endif

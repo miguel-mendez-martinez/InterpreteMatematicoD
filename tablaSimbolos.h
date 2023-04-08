@@ -1,7 +1,7 @@
-#ifndef TABLA_H
-#define TABLA_H
+#ifndef TABLASIMBOLOS_H
+#define TABLASIMBOLOS_H
 
-#include "definiciones.h"
+#include "interpreteMat.h"
 
 /**
  * Funcion que inicializa la tabla de simbolos
@@ -23,6 +23,17 @@ void printTabla();
  * Si este existe, devuelve un struct con su valor 
  * Si no existe, se inserta en la tabla de simbolos y se devuelve un struct con su valor
  * @param elem elemento a buscar
- */
-void buscaElemento(tipoelem *element);
+ *  */
+
+void buscaElemento(CompLexico *element);
+
+void insertarComponente(CompLexico comp);
+
+void modificarValorVariable(char *lexema, double valor);
+
+CompLexico buscarLexema(char *lexema);
+
+void printWorkSpace();
+
+void eliminarWorkSpace();
 #endif
