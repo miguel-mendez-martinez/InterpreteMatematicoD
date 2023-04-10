@@ -17,5 +17,4 @@ double limpiarws();
 
 double cargar(char *ficheiro);
 
-
 #endif

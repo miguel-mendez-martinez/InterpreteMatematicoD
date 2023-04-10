@@ -1,6 +1,5 @@
 %{
 #include <math.h>
-
 #include "lex.yy.h"
 #include "tablaSimbolos.h"
 
@@ -13,8 +12,6 @@ int error = 0;
 void yyerror (char *s);
 %}
 
-/*declaraciones bison*/
-
 %union{
     double numero;
     char *cadena;
@@ -22,7 +19,6 @@ void yyerror (char *s);
 
 %start entrada
 
-/*TOKEN*/
 %token <numero> NUM
 %token <cadena> CONS VAR FUNC CMND0 CMND1 FICHERO LIB
 
@@ -46,6 +42,7 @@ entrada: %empty         {
 
 linea:  '\n'                { printf(CYAN">"RESET" "); }
        | exp '\n'           {
+                                printf("Hola\n");
                                 if (!error) {
                                     if(isnan($1)){
                                         printf(ROJO"NAN DETECTADO"RESET"\n\n");
@@ -59,6 +56,7 @@ linea:  '\n'                { printf(CYAN">"RESET" "); }
                                 error = 0;
                             }
         | exp ';' '\n'      {
+                                printf("Hola\n");
                                 if (!error) {
                                     if(isnan($1)){
                                         printf(ROJO"NAN DETECTADO"RESET"\n\n");
@@ -72,6 +70,7 @@ linea:  '\n'                { printf(CYAN">"RESET" "); }
                                 error = 0;
                             }
         | asig '\n'           {
+                                printf("Hola asig\n");
                                 if (!error) {
                                     if(isnan($1)){
                                         printf(ROJO"NAN DETECTADO"RESET"\n\n");
@@ -85,6 +84,7 @@ linea:  '\n'                { printf(CYAN">"RESET" "); }
                                 error = 0;
                             }
         | asig ';' '\n'      {
+                                printf("Hola asig\n");
                                 if (!error) {
                                     if(isnan($1)){
                                         printf(ROJO"NAN DETECTADO"RESET"\n\n");
@@ -98,6 +98,7 @@ linea:  '\n'                { printf(CYAN">"RESET" "); }
                                 error = 0;
                             }
         | cmnd '\n'         {
+                                printf("Hola cmnd");
                                 if(isnan($1) && !error){
                                     printf(ROJO"NAN DETECTADO"RESET"\n\n");
                                 }
@@ -107,6 +108,7 @@ linea:  '\n'                { printf(CYAN">"RESET" "); }
                                 error = 1;
                             }
         | cmnd ';' '\n'     {
+                                printf("Hola cmnd");
                                 if(isnan($1) && !error){
                                     printf(ROJO"NAN DETECTADO"RESET"\n\n");printf("NAN DETECTADO");
                                 }
@@ -119,11 +121,13 @@ linea:  '\n'                { printf(CYAN">"RESET" "); }
 
 exp:    NUM
         | CONS              {
+                                printf("que pasa aqui");
                                 comp = buscarLexema($1);
                                 $$ = comp.valor.var;
                                 free($1);
                             }
         | VAR               {
+                                printf("hola\n");
                                 comp = buscarLexema($1);
                                 if(comp.lexema != NULL){
                                     $$ = comp.valor.var;
@@ -221,7 +225,7 @@ asig:   VAR '=' exp         {
                                 free($1);
                             }
         
-        | CONS   '=' exp    {
+        | CONS  '=' exp    {
                                 printf(ROJO"Las constantes no se pueden modificar"RESET"\n\n");
                                 error = 1;
                                 $$ = NAN;
@@ -230,6 +234,7 @@ asig:   VAR '=' exp         {
 ;
 
 cmnd:   CMND0               {
+                                printf("holu\n");
                                 comp = buscarLexema($1);
                                 free($1);
                                 (*(comp.valor.funcptr))();

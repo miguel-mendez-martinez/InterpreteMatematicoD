@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "interpreteMat.h"
-//#include "bison.tab.h"
+#include "bison.tab.h"
 
 struct celda {
     tipoelem info;
@@ -126,6 +126,7 @@ void insertar(abb *A, tipoelem E) {
         (*A)->info.valorLexico = E.valorLexico;
         (*A)->info.lexema = malloc((strlen(E.lexema) + 1) * sizeof(char)); //añadimos 1 para que strcpy nos incluya el /0
         strcpy((*A)->info.lexema, E.lexema);
+        (*A)->info.valor = E.valor;
         (*A)->izq = NULL;
         (*A)->der = NULL;
         return;

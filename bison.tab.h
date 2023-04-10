@@ -81,10 +81,10 @@ typedef union YYSTYPE YYSTYPE;
 
 extern YYSTYPE yylval;
 
-int yyparse (void);
-
 void cambiarEcho(int valor);
 
 void ejecutandoScript(int valor);
+
+int yyparse (void);
 
 #endif /* !YY_YY_BISON_TAB_H_INCLUDED  */

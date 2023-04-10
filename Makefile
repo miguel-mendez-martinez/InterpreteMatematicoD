@@ -4,7 +4,8 @@ CC=gcc -Wall
 # Carpeta de las cabeceras
 HEADER_FILES_DIR = .
 
-
+#libreria matematica
+LIBS = -lm
 
 # Opciones de compilación: indica donde están los ficheros .h
 INCLUDES = -I $(HEADER_FILES_DIR)
@@ -18,10 +19,10 @@ FLEX_FILE = flex.l
 BISON_FILE = bison.y
 
 # Ficheros .h
-LIB_HEADERS = definiciones.h tablaSimbolos.h abb.h lex.yy.h interpreteMat.h bison.tab.h
+LIB_HEADERS = definiciones.h tablaSimbolos.h abb.h lex.yy.h interpreteMat.h bison.tab.h system.h 
 
 # Ficheros .c
-SRCS = main.c tablaSimbolos.c abb.c lex.yy.c interpreteMat.c bison.tab.c 
+SRCS = main.c tablaSimbolos.c abb.c lex.yy.c interpreteMat.c bison.tab.c system.c
 
 # Ficheros .o: todos los .o con un análogo .c en SRCS
 OBJS = $(SRCS:.c=.o)
@@ -29,7 +30,7 @@ OBJS = $(SRCS:.c=.o)
 # REGLA 1: genera el ejecutable, dependencia de los .o
 # Tras geneerarlos borra los .o
 $(OUTPUT): $(OBJS)
-	$(CC) -o $(OUTPUT) $(OBJS) 
+	$(CC) -o $(OUTPUT) $(OBJS) $(LIBS)
 	rm *.o
 
 # REGRA 2: geneera los .o cuando se necesita, dependencia de los .c e .h

@@ -19,7 +19,6 @@ typedef struct  {
     {
         double var;
         double (*funcptr)(); //usado para el callback, de manera que podamos guardar funciones en la tabla de simbolos
-        void *libhandle; //usado para saber si hay una funcion que queda fuera de nuestro alcance, teniendo que buscar en una libreria concreta
     }valor;
     
 } CompLexico;

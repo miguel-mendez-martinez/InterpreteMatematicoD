@@ -4,6 +4,7 @@
 #include <dlfcn.h>
 
 #include "system.h"
+#include "interpreteMat.h"
 #include "lex.yy.h"
 #include "bison.tab.h"
 #include "tablaSimbolos.h"
@@ -24,6 +25,7 @@ double salir(){
 }
 
 double help(){
+    printf("Bienvenido al interprete matematico perra.\n");
     return 0;
 }
 

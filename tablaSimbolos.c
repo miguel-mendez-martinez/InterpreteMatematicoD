@@ -1,25 +1,26 @@
 // En este fichero se define la tabla de simbolos a utilizar por el analizador lexico.
 
-#include "abb.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "abb.h"
+#include "interpreteMat.h"
 #include "definiciones.h"
 #include "system.h"
 #include "bison.tab.h"
 #include "tablaSimbolos.h"
 
 //variable global que almacena la tabla de simbolos
-abb tablaSimbolos;
+abb tSimbolos;
 
 int num_variables = 0;
 
 void initTabla(){
     //inicializamos la tabla de simbolos
-    crear(&tablaSimbolos);
+    crear(&tSimbolos);
     tipoelem inicializacion[] = {
-            {"pi", CONS, .valor.var=3.14159265358979323846},
-            {"e", CONS, .valor.var=2.7182818284590452354},
+            {"pi", CONS, .valor.var=3.1415926535897932},
+            {"e", CONS, .valor.var=2.718281828459045},
             {"clear", CMND0, .valor.funcptr=clear},
             {"salir",CMND0, .valor.funcptr=salir},
             {"help", CMND0, .valor.funcptr=help},
@@ -32,7 +33,7 @@ void initTabla(){
 
     //insertamos las palabras reservadas en la tabla de simbolos
     for (int i = 0; i < (sizeof(inicializacion) / sizeof(tipoelem)); i++) {
-        insertar(&tablaSimbolos, inicializacion[i]);
+        insertar(&tSimbolos, inicializacion[i]);
     }
 
 }
@@ -40,7 +41,7 @@ void initTabla(){
 //destruye la tabla de simbolos para liberar memoria
 void destruyeTabla(){
     //se llama a la funcion destruir de la libreria abb
-    destruir(&tablaSimbolos);
+    destruir(&tSimbolos);
 }
 
 
@@ -101,21 +102,22 @@ void _eliminaVarRecursiva(abb A, int *stop){
 
 void _eliminaVar(){
     int stop = 0;
-    _eliminaVarRecursiva(tablaSimbolos, &stop);
+    _eliminaVarRecursiva(tSimbolos, &stop);
 }
 
 // Función que busca un lexema concreto.
 //  Si el lexema está en la tabka, devuelve su componente léxico.
 //  Si oçel lexema no está en la tabla, devuelve NULL.
 CompLexico buscarLexema(char *lexema) {
+    printf("Buscando el lexema %s \n", lexema);
     tipoelem comp_busqueda = {NULL, 0 };
-    buscar_nodo(tablaSimbolos, lexema, &comp_busqueda);
+    buscar_nodo(tSimbolos, lexema, &comp_busqueda);
     return comp_busqueda;
 }
 
 // Función que inserta un componente léxico en la tabla de símbolos
 void insertarComponente(CompLexico comp) {
-    insertar(&tablaSimbolos, comp);
+    insertar(&tSimbolos, comp);
     if (comp.valorLexico == VAR) {
         num_variables++;
     }
@@ -126,9 +128,9 @@ void modificarValorVariable(char *lexema, double valor) {
     tipoelem comp_busqueda = {NULL, 0 };
 
     // Busca en la tabla un lexema concreto devolviendolo
-    buscar_nodo(tablaSimbolos, lexema, &comp_busqueda);
+    buscar_nodo(tSimbolos, lexema, &comp_busqueda);
     if (comp_busqueda.lexema != NULL) { // Se está en la tabla, se modifica
-        modificarNodo(&tablaSimbolos, lexema, valor);
+        modificarNodo(&tSimbolos, lexema, valor);
     }
 }
 
@@ -137,27 +139,27 @@ void modificarValorVariable(char *lexema, double valor) {
 void buscaElemento(CompLexico *elemento){
 
     //buscamos el elemento en la tabla de simbolos
-    if(es_miembro(tablaSimbolos, *elemento)){
+    if(es_miembro(tSimbolos, *elemento)){
         tipoelem find;
-        buscar_nodo(tablaSimbolos, elemento->lexema, &find);
+        buscar_nodo(tSimbolos, elemento->lexema, &find);
         elemento->valorLexico = find.valorLexico;
     //si no existe simplemente lo insertamos y establecemos como valor ID
     }else{
         elemento->valorLexico = ID;
-        insertar(&tablaSimbolos, *elemento);
+        insertar(&tSimbolos, *elemento);
     }
 }
 
 //funcion pública que permite imprimir la tabla de simbolos
 void printTabla(){
     //imprimimos la tabla de simbolos
-    printf("------------------------------------------------\n"
+    printf("---------------------------------------------------------\n"
            "\t\t    Tabla de simbolos:\n"
-           "------------------------------------------------\n"
+           "---------------------------------------------------------\n"
            "    %-6s\t\t     %-6s\t\t%-6s\n"
-           "------------------------------------------------\n", "Tipo", "Lexema", "Valor");
-    _printTabla(tablaSimbolos);
-    printf("------------------------------------------------\n");
+           "---------------------------------------------------------\n", "Tipo", "Lexema", "Valor");
+    _printTabla(tSimbolos);
+    printf("---------------------------------------------------------\n");
 }
 
 //funcion pública que permite imprimir la tabla de simbolos
@@ -168,7 +170,7 @@ void printWorkSpace(){
            "------------------------------------------------\n"
            "    %-6s\t\t%-6s\n"
            "------------------------------------------------\n", "Lexema", "Valor");
-    _printWS(tablaSimbolos);
+    _printWS(tSimbolos);
     printf("------------------------------------------------\n");
 }
 

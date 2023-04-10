@@ -36,4 +36,5 @@ CompLexico buscarLexema(char *lexema);
 void printWorkSpace();
 
 void eliminarWorkSpace();
+
 #endif

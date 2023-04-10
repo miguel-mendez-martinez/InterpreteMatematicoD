@@ -861,6 +861,7 @@ YY_RULE_SETUP
 {
                         yylval.cadena = strdup(yytext);
                         CompLexico comp = buscarLexema(yylval.cadena);
+                        printf("He encontrado %d y CONS es %d con lexema %s \n", comp.valorLexico, CONS, comp.lexema);
                         if (comp.lexema == NULL) {
                             return VAR;
                         }
@@ -869,7 +870,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 85 "flex.l"
+#line 86 "flex.l"
 { 
                         yylval.numero = atof(yytext); 
                         return NUM; 
@@ -877,30 +878,30 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 89 "flex.l"
+#line 90 "flex.l"
 return (int) *yytext;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 90 "flex.l"
+#line 91 "flex.l"
 yylval.cadena = strdup(yytext); return FICHERO;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 92 "flex.l"
+#line 93 "flex.l"
 printf(ROJO"LEXEMA DESCONOCIDO"RESET"\n\n");
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(NESTED_COMMENT):
-#line 94 "flex.l"
+#line 95 "flex.l"
 ejecutandoScript(0); fclose(yyin); yyrestart(stdin);
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 96 "flex.l"
+#line 97 "flex.l"
 ECHO;
 	YY_BREAK
-#line 904 "lex.yy.c"
+#line 905 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1866,5 +1867,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 96 "flex.l"
+#line 97 "flex.l"
 

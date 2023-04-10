@@ -76,6 +76,7 @@ FICHERO             ({LETTER}|{DECIMAL_DIGIT})+(\.({LETTER}|{DECIMAL_DIGIT})+)+|
 {IDENTIFIER}        {
                         yylval.cadena = strdup(yytext);
                         CompLexico comp = buscarLexema(yylval.cadena);
+                        printf("He encontrado %d y CONS es %d con lexema %s \n", comp.valorLexico, CONS, comp.lexema);
                         if (comp.lexema == NULL) {
                             return VAR;
                         }
