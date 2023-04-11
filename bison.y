@@ -13,16 +13,16 @@ void yyerror (char *s);
 %}
 
 %union{
-    double numero;
-    char *cadena;
+    double number;
+    char *string;
 }
 
-%start entrada
+%start start
 
-%token <numero> NUM
-%token <cadena> CONS VAR FUNC CMND0 CMND1 FICHERO LIB
+%token <number> NUM
+%token <string> CONS VAR FUNC CMND0 CMND1 FICHERO LIB
 
-%type <numero> exp asig cmnd
+%type <number> exp asig cmnd
 
 %left '-' '+'
 %left '*' '/'
@@ -31,18 +31,16 @@ void yyerror (char *s);
 %right '^'
 
 %%
-
-entrada: %empty         {
+start: %empty         {
                             if(!script){
                                 printf(CYAN">"RESET" ");
                             }
                         }
-        | entrada linea
+        | start line
 ;
 
-linea:  '\n'                { printf(CYAN">"RESET" "); }
-       | exp '\n'           {
-                                printf("Hola\n");
+line:  '\n'                { printf(CYAN">"RESET" "); }
+        | exp '\n'          {
                                 if (!error) {
                                     if(isnan($1)){
                                         printf(ROJO"NAN DETECTADO"RESET"\n\n");
@@ -56,7 +54,6 @@ linea:  '\n'                { printf(CYAN">"RESET" "); }
                                 error = 0;
                             }
         | exp ';' '\n'      {
-                                printf("Hola\n");
                                 if (!error) {
                                     if(isnan($1)){
                                         printf(ROJO"NAN DETECTADO"RESET"\n\n");
@@ -70,7 +67,6 @@ linea:  '\n'                { printf(CYAN">"RESET" "); }
                                 error = 0;
                             }
         | asig '\n'           {
-                                printf("Hola asig\n");
                                 if (!error) {
                                     if(isnan($1)){
                                         printf(ROJO"NAN DETECTADO"RESET"\n\n");
@@ -84,7 +80,6 @@ linea:  '\n'                { printf(CYAN">"RESET" "); }
                                 error = 0;
                             }
         | asig ';' '\n'      {
-                                printf("Hola asig\n");
                                 if (!error) {
                                     if(isnan($1)){
                                         printf(ROJO"NAN DETECTADO"RESET"\n\n");
@@ -98,7 +93,6 @@ linea:  '\n'                { printf(CYAN">"RESET" "); }
                                 error = 0;
                             }
         | cmnd '\n'         {
-                                printf("Hola cmnd");
                                 if(isnan($1) && !error){
                                     printf(ROJO"NAN DETECTADO"RESET"\n\n");
                                 }
@@ -108,7 +102,6 @@ linea:  '\n'                { printf(CYAN">"RESET" "); }
                                 error = 1;
                             }
         | cmnd ';' '\n'     {
-                                printf("Hola cmnd");
                                 if(isnan($1) && !error){
                                     printf(ROJO"NAN DETECTADO"RESET"\n\n");printf("NAN DETECTADO");
                                 }
@@ -121,13 +114,11 @@ linea:  '\n'                { printf(CYAN">"RESET" "); }
 
 exp:    NUM
         | CONS              {
-                                printf("que pasa aqui");
                                 comp = buscarLexema($1);
                                 $$ = comp.valor.var;
                                 free($1);
                             }
         | VAR               {
-                                printf("hola\n");
                                 comp = buscarLexema($1);
                                 if(comp.lexema != NULL){
                                     $$ = comp.valor.var;
@@ -213,16 +204,18 @@ asig:   VAR '=' exp         {
                                     comp = buscarLexema($1);
                                     if (comp.lexema != NULL) {
                                         modificarValorVariable($1, $3);
+                                        $$ = $3;
+                                        free($1);
                                     } else {
                                         comp.lexema = strdup($1);
                                         comp.valorLexico = VAR;
                                         comp.valor.var = $3;
                                         insertarComponente(comp);
                                         free(comp.lexema);
+                                        $$ = $3;
+                                        free($1);
                                     }
                                 }
-                                $$ = $3;
-                                free($1);
                             }
         
         | CONS  '=' exp    {
@@ -234,7 +227,6 @@ asig:   VAR '=' exp         {
 ;
 
 cmnd:   CMND0               {
-                                printf("holu\n");
                                 comp = buscarLexema($1);
                                 free($1);
                                 (*(comp.valor.funcptr))();
@@ -275,8 +267,8 @@ cmnd:   CMND0               {
                                 free($1);
                             }
 ;
-
 %%
+
 void yyerror(char *s) {
     printf("SINTAXIS NO VALIDA\n");
 }
