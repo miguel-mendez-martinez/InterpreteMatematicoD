@@ -38,11 +38,11 @@ GENERAL_COMMENTS     \/\*([^*]|(\*+[^*/]))*\*+\/
 
 /* Componentes lexicos */
 
-IGNORAR             [ \t\r\n]
+IGNORAR             [ \t]
 
 IDENTIFIER          ({LETTER}|\_)({LETTER}|{DECIMAL_DIGIT}|\_)*
 
-INDIVIDUAL          [+\-\*/%&\|^<>=!~([{,\.)\]};:]
+INDIVIDUAL          [+\-\*/%&\|^<>=!~([{,\.)\]};:\n\r]
 
 NUMERO              {ENTERO}|{DECIMAL}
 
@@ -76,7 +76,6 @@ FICHERO             ({LETTER}|{DECIMAL_DIGIT})+(\.({LETTER}|{DECIMAL_DIGIT})+)+|
 {IDENTIFIER}        {
                         yylval.cadena = strdup(yytext);
                         CompLexico comp = buscarLexema(yylval.cadena);
-                        printf("He encontrado %d y CONS es %d con lexema %s \n", comp.valorLexico, CONS, comp.lexema);
                         if (comp.lexema == NULL) {
                             return VAR;
                         }
@@ -91,6 +90,6 @@ FICHERO             ({LETTER}|{DECIMAL_DIGIT})+(\.({LETTER}|{DECIMAL_DIGIT})+)+|
 
 .                  printf(ROJO"LEXEMA DESCONOCIDO"RESET"\n\n");
 
-<<EOF>>		       ejecutandoScript(0); fclose(yyin); yyrestart(stdin);
+<<EOF>>		        ejecutandoScript(0); fclose(yyin); yyrestart(stdin);
 
 %%

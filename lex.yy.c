@@ -365,7 +365,7 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[74] =
     {   0,
-        0,    0,    0,    0,   17,   15,    1,    1,   13,   13,
+        0,    0,    0,    0,   17,   15,    1,   13,   13,   13,
        13,   12,   11,   11,    8,   10,    7,    9,   12,    0,
         4,    2,    0,   12,   12,    0,    0,    0,    0,   11,
        11,    8,    7,    6,    5,   12,    0,    0,    0,    0,
@@ -378,7 +378,7 @@ static const flex_int16_t yy_accept[74] =
 static const YY_CHAR yy_ec[256] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
-        1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    4,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    2,    4,    1,    1,    1,    4,    4,    1,    4,
         4,    5,    6,    4,    7,    8,    9,   10,   10,   10,
@@ -799,7 +799,6 @@ do_action:	/* This label is used only to access EOF actions. */
 			goto yy_find_action;
 
 case 1:
-/* rule 1 can match eol */
 YY_RULE_SETUP
 #line 60 "flex.l"
 
@@ -861,7 +860,6 @@ YY_RULE_SETUP
 {
                         yylval.cadena = strdup(yytext);
                         CompLexico comp = buscarLexema(yylval.cadena);
-                        printf("He encontrado %d y CONS es %d con lexema %s \n", comp.valorLexico, CONS, comp.lexema);
                         if (comp.lexema == NULL) {
                             return VAR;
                         }
@@ -870,38 +868,39 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 86 "flex.l"
+#line 85 "flex.l"
 { 
                         yylval.numero = atof(yytext); 
                         return NUM; 
                     }
 	YY_BREAK
 case 13:
+/* rule 13 can match eol */
 YY_RULE_SETUP
-#line 90 "flex.l"
+#line 89 "flex.l"
 return (int) *yytext;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 91 "flex.l"
+#line 90 "flex.l"
 yylval.cadena = strdup(yytext); return FICHERO;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 93 "flex.l"
+#line 92 "flex.l"
 printf(ROJO"LEXEMA DESCONOCIDO"RESET"\n\n");
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(NESTED_COMMENT):
-#line 95 "flex.l"
+#line 94 "flex.l"
 ejecutandoScript(0); fclose(yyin); yyrestart(stdin);
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 97 "flex.l"
+#line 96 "flex.l"
 ECHO;
 	YY_BREAK
-#line 905 "lex.yy.c"
+#line 904 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1867,5 +1866,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 97 "flex.l"
+#line 96 "flex.l"
 

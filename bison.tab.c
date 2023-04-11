@@ -146,8 +146,8 @@ union YYSTYPE
 {
 #line 15 "bison.y"
 
-    double numero;
-    char *cadena;
+    double number;
+    char *string;
 
 #line 153 "bison.tab.c"
 
@@ -525,10 +525,10 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    35,    35,    40,    43,    44,    58,    72,    86,   100,
-     110,   122,   123,   129,   141,   148,   155,   162,   169,   182,
-     195,   202,   211,   228,   236,   242,   247,   253,   259,   265,
-     271
+       0,    34,    34,    39,    42,    43,    56,    69,    82,    95,
+     104,   115,   116,   121,   132,   139,   146,   153,   160,   173,
+     186,   193,   202,   218,   226,   231,   236,   242,   248,   254,
+     260
 };
 #endif
 
@@ -539,8 +539,8 @@ static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "NUM", "CONS", "VAR", "FUNC", "CMND0",
   "CMND1", "FICHERO", "LIB", "'-'", "'+'", "'*'", "'/'", "'%'", "NEG",
-  "'^'", "'\\n'", "';'", "'('", "')'", "'='", "$accept", "entrada",
-  "linea", "exp", "asig", "cmnd", YY_NULLPTR
+  "'^'", "'\\n'", "';'", "'('", "')'", "'='", "$accept", "start", "line",
+  "exp", "asig", "cmnd", YY_NULLPTR
 };
 #endif
 
@@ -1356,8 +1356,8 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 35 "bison.y"
-                        {
+#line 34 "bison.y"
+                      {
                             if(!script){
                                 printf(CYAN">"RESET" ");
                             }
@@ -1366,20 +1366,19 @@ yyreduce:
     break;
 
   case 4:
-#line 43 "bison.y"
-                            { printf(CYAN">"RESET" "); }
+#line 42 "bison.y"
+                           { printf(CYAN">"RESET" "); }
 #line 1372 "bison.tab.c"
     break;
 
   case 5:
-#line 44 "bison.y"
+#line 43 "bison.y"
                             {
-                                printf("Hola\n");
                                 if (!error) {
-                                    if(isnan((yyvsp[-1].numero))){
+                                    if(isnan((yyvsp[-1].number))){
                                         printf(ROJO"NAN DETECTADO"RESET"\n\n");
                                     }else if(doEcho){
-                                        printf(VERDE"%lf"RESET"\n\n", (yyvsp[-1].numero));
+                                        printf(VERDE"%lf"RESET"\n\n", (yyvsp[-1].number));
                                     }
                                 }
                                 if (!script) {
@@ -1387,18 +1386,17 @@ yyreduce:
                                 }
                                 error = 0;
                             }
-#line 1391 "bison.tab.c"
+#line 1390 "bison.tab.c"
     break;
 
   case 6:
-#line 58 "bison.y"
+#line 56 "bison.y"
                             {
-                                printf("Hola\n");
                                 if (!error) {
-                                    if(isnan((yyvsp[-2].numero))){
+                                    if(isnan((yyvsp[-2].number))){
                                         printf(ROJO"NAN DETECTADO"RESET"\n\n");
                                     }else if(doEcho){
-                                        printf(VERDE"%lf"RESET"\n\n", (yyvsp[-2].numero));
+                                        printf(VERDE"%lf"RESET"\n\n", (yyvsp[-2].number));
                                     }
                                 }
                                 if (!script) {
@@ -1406,18 +1404,17 @@ yyreduce:
                                 }
                                 error = 0;
                             }
-#line 1410 "bison.tab.c"
+#line 1408 "bison.tab.c"
     break;
 
   case 7:
-#line 72 "bison.y"
+#line 69 "bison.y"
                               {
-                                printf("Hola asig\n");
                                 if (!error) {
-                                    if(isnan((yyvsp[-1].numero))){
+                                    if(isnan((yyvsp[-1].number))){
                                         printf(ROJO"NAN DETECTADO"RESET"\n\n");
                                     }else if(doEcho){
-                                        printf(VERDE"%lf"RESET"\n\n", (yyvsp[-1].numero));
+                                        printf(VERDE"%lf"RESET"\n\n", (yyvsp[-1].number));
                                     }
                                 }
                                 if (!script) {
@@ -1425,18 +1422,17 @@ yyreduce:
                                 }
                                 error = 0;
                             }
-#line 1429 "bison.tab.c"
+#line 1426 "bison.tab.c"
     break;
 
   case 8:
-#line 86 "bison.y"
+#line 82 "bison.y"
                              {
-                                printf("Hola asig\n");
                                 if (!error) {
-                                    if(isnan((yyvsp[-2].numero))){
+                                    if(isnan((yyvsp[-2].number))){
                                         printf(ROJO"NAN DETECTADO"RESET"\n\n");
                                     }else if(doEcho){
-                                        printf(VERDE"%lf"RESET"\n\n", (yyvsp[-2].numero));
+                                        printf(VERDE"%lf"RESET"\n\n", (yyvsp[-2].number));
                                     }
                                 }
                                 if (!script) {
@@ -1444,14 +1440,13 @@ yyreduce:
                                 }
                                 error = 0;
                             }
-#line 1448 "bison.tab.c"
+#line 1444 "bison.tab.c"
     break;
 
   case 9:
-#line 100 "bison.y"
+#line 95 "bison.y"
                             {
-                                printf("Hola cmnd");
-                                if(isnan((yyvsp[-1].numero)) && !error){
+                                if(isnan((yyvsp[-1].number)) && !error){
                                     printf(ROJO"NAN DETECTADO"RESET"\n\n");
                                 }
                                 if(!script){
@@ -1459,14 +1454,13 @@ yyreduce:
                                 }
                                 error = 1;
                             }
-#line 1463 "bison.tab.c"
+#line 1458 "bison.tab.c"
     break;
 
   case 10:
-#line 110 "bison.y"
+#line 104 "bison.y"
                             {
-                                printf("Hola cmnd");
-                                if(isnan((yyvsp[-2].numero)) && !error){
+                                if(isnan((yyvsp[-2].number)) && !error){
                                     printf(ROJO"NAN DETECTADO"RESET"\n\n");printf("NAN DETECTADO");
                                 }
                                 if(!script){
@@ -1474,255 +1468,251 @@ yyreduce:
                                 }
                                 error = 1;
                             }
-#line 1478 "bison.tab.c"
+#line 1472 "bison.tab.c"
     break;
 
   case 12:
-#line 123 "bison.y"
+#line 116 "bison.y"
                             {
-                                printf("que pasa aqui");
-                                comp = buscarLexema((yyvsp[0].cadena));
-                                (yyval.numero) = comp.valor.var;
-                                free((yyvsp[0].cadena));
+                                comp = buscarLexema((yyvsp[0].string));
+                                (yyval.number) = comp.valor.var;
+                                free((yyvsp[0].string));
                             }
-#line 1489 "bison.tab.c"
+#line 1482 "bison.tab.c"
     break;
 
   case 13:
-#line 129 "bison.y"
+#line 121 "bison.y"
                             {
-                                printf("hola\n");
-                                comp = buscarLexema((yyvsp[0].cadena));
+                                comp = buscarLexema((yyvsp[0].string));
                                 if(comp.lexema != NULL){
-                                    (yyval.numero) = comp.valor.var;
+                                    (yyval.number) = comp.valor.var;
                                 }else{
                                     printf(ROJO"VARIABLE NO DEFINIDA"RESET"\n\n");
                                     error = 1;
-                                    (yyval.numero) = NAN;
+                                    (yyval.number) = NAN;
                                 }
-                                free((yyvsp[0].cadena));
+                                free((yyvsp[0].string));
                             }
-#line 1506 "bison.tab.c"
+#line 1498 "bison.tab.c"
     break;
 
   case 14:
-#line 141 "bison.y"
+#line 132 "bison.y"
                             {
-                                if(!isnan((yyvsp[0].numero))){
-                                    (yyval.numero) = -(yyvsp[0].numero);
+                                if(!isnan((yyvsp[0].number))){
+                                    (yyval.number) = -(yyvsp[0].number);
                                 }else{
-                                    (yyval.numero) = NAN;
+                                    (yyval.number) = NAN;
                                 }
                             }
-#line 1518 "bison.tab.c"
+#line 1510 "bison.tab.c"
     break;
 
   case 15:
-#line 148 "bison.y"
+#line 139 "bison.y"
                             {
-                                if(!isnan((yyvsp[-2].numero)) && !isnan((yyvsp[0].numero))){
-                                    (yyval.numero) = (yyvsp[-2].numero) + (yyvsp[0].numero);
+                                if(!isnan((yyvsp[-2].number)) && !isnan((yyvsp[0].number))){
+                                    (yyval.number) = (yyvsp[-2].number) + (yyvsp[0].number);
                                 }else{
-                                    (yyval.numero) = NAN;
+                                    (yyval.number) = NAN;
                                 }
                             }
-#line 1530 "bison.tab.c"
+#line 1522 "bison.tab.c"
     break;
 
   case 16:
-#line 155 "bison.y"
+#line 146 "bison.y"
                             {
-                                if(!isnan((yyvsp[-2].numero)) && !isnan((yyvsp[0].numero))) {
-                                    (yyval.numero) = (yyvsp[-2].numero) - (yyvsp[0].numero);
+                                if(!isnan((yyvsp[-2].number)) && !isnan((yyvsp[0].number))) {
+                                    (yyval.number) = (yyvsp[-2].number) - (yyvsp[0].number);
                                 }else{
-                                    (yyval.numero) = NAN;
+                                    (yyval.number) = NAN;
                                 }
                             }
-#line 1542 "bison.tab.c"
+#line 1534 "bison.tab.c"
     break;
 
   case 17:
-#line 162 "bison.y"
+#line 153 "bison.y"
                             {
-                                if(!isnan((yyvsp[-2].numero)) && !isnan((yyvsp[0].numero))) {
-                                    (yyval.numero) = (yyvsp[-2].numero) * (yyvsp[0].numero);
+                                if(!isnan((yyvsp[-2].number)) && !isnan((yyvsp[0].number))) {
+                                    (yyval.number) = (yyvsp[-2].number) * (yyvsp[0].number);
                                 }else{
-                                    (yyval.numero) = NAN;
+                                    (yyval.number) = NAN;
                                 }
                             }
-#line 1554 "bison.tab.c"
+#line 1546 "bison.tab.c"
     break;
 
   case 18:
-#line 169 "bison.y"
+#line 160 "bison.y"
                         {
-                            if ((yyvsp[0].numero) == 0) {
+                            if ((yyvsp[0].number) == 0) {
                                 printf(ROJO"Division por 0, ERROR"RESET"\n\n");
                                 error = 1;
-                                (yyval.numero) = NAN;
+                                (yyval.number) = NAN;
                             } else {
-                                if (!isnan((yyvsp[-2].numero)) && !isnan((yyvsp[0].numero))) {
-                                    (yyval.numero) = (yyvsp[-2].numero) / (yyvsp[0].numero);
+                                if (!isnan((yyvsp[-2].number)) && !isnan((yyvsp[0].number))) {
+                                    (yyval.number) = (yyvsp[-2].number) / (yyvsp[0].number);
                                 } else {
-                                    (yyval.numero) = NAN;
+                                    (yyval.number) = NAN;
                                 }
                             }
                         }
-#line 1572 "bison.tab.c"
+#line 1564 "bison.tab.c"
     break;
 
   case 19:
-#line 182 "bison.y"
+#line 173 "bison.y"
                         {
-                            if ((yyvsp[0].numero) == 0) {
+                            if ((yyvsp[0].number) == 0) {
                                 printf(ROJO"MODULO CERO. ERROR!"RESET"\n\n");
                                 error = 1;
-                                (yyval.numero) = NAN;
+                                (yyval.number) = NAN;
                             } else {
-                                if (!isnan((yyvsp[-2].numero)) && !isnan((yyvsp[0].numero))) {
-                                    (yyval.numero) = fmod((yyvsp[-2].numero), (yyvsp[0].numero));
+                                if (!isnan((yyvsp[-2].number)) && !isnan((yyvsp[0].number))) {
+                                    (yyval.number) = fmod((yyvsp[-2].number), (yyvsp[0].number));
                                 } else {
-                                    (yyval.numero) = NAN;
+                                    (yyval.number) = NAN;
                                 }
                             }
                         }
-#line 1590 "bison.tab.c"
+#line 1582 "bison.tab.c"
     break;
 
   case 20:
-#line 195 "bison.y"
+#line 186 "bison.y"
                             {
-                                if(!isnan((yyvsp[-2].numero)) && !isnan((yyvsp[0].numero))) {
-                                    (yyval.numero) = pow((yyvsp[-2].numero), (yyvsp[0].numero));
+                                if(!isnan((yyvsp[-2].number)) && !isnan((yyvsp[0].number))) {
+                                    (yyval.number) = pow((yyvsp[-2].number), (yyvsp[0].number));
                                 }else{
-                                    (yyval.numero) = NAN;
+                                    (yyval.number) = NAN;
                                 }
                             }
-#line 1602 "bison.tab.c"
+#line 1594 "bison.tab.c"
     break;
 
   case 21:
-#line 202 "bison.y"
+#line 193 "bison.y"
                             {
-                                if(!isnan((yyvsp[-1].numero))) {
-                                    (yyval.numero) = (yyvsp[-1].numero);
+                                if(!isnan((yyvsp[-1].number))) {
+                                    (yyval.number) = (yyvsp[-1].number);
                                 }else{
-                                    (yyval.numero) = NAN;
+                                    (yyval.number) = NAN;
                                 }
                             }
-#line 1614 "bison.tab.c"
+#line 1606 "bison.tab.c"
     break;
 
   case 22:
-#line 211 "bison.y"
+#line 202 "bison.y"
                             {
                                 if (!error) {
-                                    comp = buscarLexema((yyvsp[-2].cadena));
+                                    comp = buscarLexema((yyvsp[-2].string));
                                     if (comp.lexema != NULL) {
-                                        modificarValorVariable((yyvsp[-2].cadena), (yyvsp[0].numero));
+                                        modificarValorVariable((yyvsp[-2].string), (yyvsp[0].number));
                                     } else {
-                                        comp.lexema = strdup((yyvsp[-2].cadena));
+                                        comp.lexema = strdup((yyvsp[-2].string));
                                         comp.valorLexico = VAR;
-                                        comp.valor.var = (yyvsp[0].numero);
+                                        comp.valor.var = (yyvsp[0].number);
                                         insertarComponente(comp);
                                         free(comp.lexema);
-                                    }
+                                    }(yyval.number) = (yyvsp[0].number);
+                                    free((yyvsp[-2].string));
                                 }
-                                (yyval.numero) = (yyvsp[0].numero);
-                                free((yyvsp[-2].cadena));
                             }
-#line 1635 "bison.tab.c"
+#line 1626 "bison.tab.c"
     break;
 
   case 23:
-#line 228 "bison.y"
+#line 218 "bison.y"
                            {
                                 printf(ROJO"Las constantes no se pueden modificar"RESET"\n\n");
                                 error = 1;
-                                (yyval.numero) = NAN;
-                                free((yyvsp[-2].cadena));
+                                (yyval.number) = NAN;
+                                free((yyvsp[-2].string));
                             }
-#line 1646 "bison.tab.c"
+#line 1637 "bison.tab.c"
     break;
 
   case 24:
-#line 236 "bison.y"
+#line 226 "bison.y"
                             {
-                                printf("holu\n");
-                                comp = buscarLexema((yyvsp[0].cadena));
-                                free((yyvsp[0].cadena));
+                                comp = buscarLexema((yyvsp[0].string));
+                                free((yyvsp[0].string));
+                                (*(comp.valor.funcptr))();
+                            }
+#line 1647 "bison.tab.c"
+    break;
+
+  case 25:
+#line 231 "bison.y"
+                            {
+                                comp = buscarLexema((yyvsp[-2].string));
+                                free((yyvsp[-2].string));
                                 (*(comp.valor.funcptr))();
                             }
 #line 1657 "bison.tab.c"
     break;
 
-  case 25:
-#line 242 "bison.y"
-                            {
-                                comp = buscarLexema((yyvsp[-2].cadena));
-                                free((yyvsp[-2].cadena));
-                                (*(comp.valor.funcptr))();
-                            }
-#line 1667 "bison.tab.c"
-    break;
-
   case 26:
-#line 247 "bison.y"
+#line 236 "bison.y"
                             {
                                 printf(ROJO"Fihcero no identifado"RESET"\n\n");
                                 error = 1;
-                                (yyval.numero) = NAN;
-                                free((yyvsp[0].cadena));
+                                (yyval.number) = NAN;
+                                free((yyvsp[0].string));
                             }
-#line 1678 "bison.tab.c"
+#line 1668 "bison.tab.c"
     break;
 
   case 27:
-#line 253 "bison.y"
+#line 242 "bison.y"
                             {
                                 printf(ROJO"Fihcero no identifado"RESET"\n\n");
                                 error = 1;
-                                (yyval.numero) = NAN;
-                                free((yyvsp[-2].cadena));
+                                (yyval.number) = NAN;
+                                free((yyvsp[-2].string));
                             }
-#line 1689 "bison.tab.c"
+#line 1679 "bison.tab.c"
     break;
 
   case 28:
-#line 259 "bison.y"
+#line 248 "bison.y"
                             {
-                                comp = buscarLexema((yyvsp[-1].cadena));
-                                (*(comp.valor.funcptr))((yyvsp[0].cadena));
-                                free((yyvsp[-1].cadena));
-                                free((yyvsp[0].cadena));
+                                comp = buscarLexema((yyvsp[-1].string));
+                                (*(comp.valor.funcptr))((yyvsp[0].string));
+                                free((yyvsp[-1].string));
+                                free((yyvsp[0].string));
                             }
-#line 1700 "bison.tab.c"
+#line 1690 "bison.tab.c"
     break;
 
   case 29:
-#line 265 "bison.y"
+#line 254 "bison.y"
                                 {
-                                comp = buscarLexema((yyvsp[-3].cadena));
-                                (*(comp.valor.funcptr))((yyvsp[-1].cadena));
-                                free((yyvsp[-3].cadena));
-                                free((yyvsp[-1].cadena));
+                                comp = buscarLexema((yyvsp[-3].string));
+                                (*(comp.valor.funcptr))((yyvsp[-1].string));
+                                free((yyvsp[-3].string));
+                                free((yyvsp[-1].string));
                             }
-#line 1711 "bison.tab.c"
+#line 1701 "bison.tab.c"
     break;
 
   case 30:
-#line 271 "bison.y"
+#line 260 "bison.y"
                             {
                                 printf(ROJO"MAL FORMATO DE FICHERO"RESET"\n\n");
                                 error = 1;
-                                (yyval.numero) = NAN;
-                                free((yyvsp[-1].cadena));
+                                (yyval.number) = NAN;
+                                free((yyvsp[-1].string));
                             }
-#line 1722 "bison.tab.c"
+#line 1712 "bison.tab.c"
     break;
 
 
-#line 1726 "bison.tab.c"
+#line 1716 "bison.tab.c"
 
       default: break;
     }
@@ -1954,7 +1944,8 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 279 "bison.y"
+#line 267 "bison.y"
+
 
 void yyerror(char *s) {
     printf("SINTAXIS NO VALIDA\n");

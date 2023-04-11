@@ -27,7 +27,7 @@ void initTabla(){
             {"echo", CMND0, .valor.funcptr=echo},
             {"tabla", CMND0, .valor.funcptr=tabla},
             {"ws", CMND0, .valor.funcptr=workSpace},
-            {"limparws", CMND0, .valor.funcptr=limpiarws},
+            {"limpiarws", CMND0, .valor.funcptr=limpiarws},
             {"cargar", CMND1, .valor.funcptr=cargar},
     };
 
@@ -75,10 +75,12 @@ void _printTabla(abb A){
 void _printWS(abb A){
     tipoelem E;
     if (!es_vacio(A)) {
-        _printTabla(izq(A));
+        _printWS(izq(A));
         leer(A, &E);
-        printf("    %-6s\t\t    %-6lf\n", E.lexema, E.valor.var);
-        _printTabla(der(A));
+        if(E.valorLexico == VAR){
+            printf("    %-6s\t\t    %-6lf\n", E.lexema, E.valor.var);
+        }
+        _printWS(der(A));
     }
 }
 
@@ -109,7 +111,6 @@ void _eliminaVar(){
 //  Si el lexema está en la tabka, devuelve su componente léxico.
 //  Si oçel lexema no está en la tabla, devuelve NULL.
 CompLexico buscarLexema(char *lexema) {
-    printf("Buscando el lexema %s \n", lexema);
     tipoelem comp_busqueda = {NULL, 0 };
     buscar_nodo(tSimbolos, lexema, &comp_busqueda);
     return comp_busqueda;

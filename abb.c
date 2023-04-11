@@ -39,9 +39,6 @@ void crear(abb *A) {
 
 void aux_destruir_elem(tipoelem *elem){
     free(elem->lexema);
-    /*if (elem->valorLexico == LIB) {
-        dlclose(elem->valor.libhandle);
-    }*/
 }
 
 void destruir(abb *A) {
@@ -147,7 +144,16 @@ tipoelem _suprimir_min(abb * A) {//Se devuelve el elemento más a la izquierda
     if (es_vacio((*A)->izq)) {//Si izquierda vacía, se devuelve valor nodo actual A
         ele = (*A)->info;
         aux = *A;
-        *A = (*A)->der;
+        if(es_vacio((*A)->der)){
+            //si el arbol derecho no tiene nada liberamos memoria
+            aux_destruir_elem(&(*A)->info);
+            free(*A);
+            *A = NULL;
+        }else{
+            //si hay subarbol derecho substituimos
+            *A = (*A)->der;
+        }
+        aux_destruir_elem(&aux->info);
         free(aux);
         return ele;
     } else {
@@ -168,19 +174,25 @@ void suprimir(abb *A, tipoelem E) {
         suprimir(&(*A)->izq, E);
     } else if (comp > 0) { //(E > (*A)->info) {
         suprimir(&(*A)->der, E);
-    } else if (es_vacio((*A)->izq) && es_vacio((*A)->der)) {
+    } else if (es_vacio((*A)->izq) && es_vacio((*A)->der)) { //no tiene subarboles
+        printf("No tiene subarboles.\n");
+        //aux_destruir_elem(&(*A)->info);
         free(*A);
         *A = NULL;
-    } else if (es_vacio((*A)->izq)) { // pero no es vacio derecha
-        aux = *A;
-        *A = (*A)->der;
-        free(aux);
-    } else if (es_vacio((*A)->der)) { //pero no es vacio izquierda
+    } else if (!es_vacio((*A)->izq)) { // existe un subarbol izq
+        printf("Tiene subarbol izq.\n");
         aux = *A;
         *A = (*A)->izq;
+        //aux_destruir_elem(&aux->info);
         free(aux);
-    } else { //ni derecha ni izquierda esta vacio, busco mínimo subárbol derecho
-        //pues en su sitio voy a poner el mínimo del subárbol derecho
+    } else if (!es_vacio((*A)->der)) { // existe un subarbol der
+        printf("Tiene subarbol der.\n");
+        aux = *A;
+        *A = (*A)->der;
+        //aux_destruir_elem(&aux->info);
+        free(aux);
+    } else { //existen subarboles a ambos lados, busco mínimo subárbol derecho, pues voy a susututuir el nodo con el mínimo del subárbol derecho
+        printf("Hola voy a suprimir minimos.\n");
         (*A)->info = _suprimir_min(&(*A)->der);
     }
 }
