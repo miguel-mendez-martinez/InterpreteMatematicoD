@@ -9,7 +9,7 @@
 #include "bison.tab.h"
 #include "tablaSimbolos.h"
 
-int V_Echo = 0;
+int V_Echo = 1; //igual que en el byson.y, el echo esta activado por defecto.
 
 double clear(){
     system("clear");
@@ -49,7 +49,7 @@ double workSpace(){
     return 0;
 }
 
-double limpiarws(){
+double eliminarWs(){
     eliminarWorkSpace();
     printf(AMARILLO"Espacio de trabajo limpiado correctamente.\n\n"RESET);
     return 0;

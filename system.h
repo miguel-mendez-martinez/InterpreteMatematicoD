@@ -13,7 +13,7 @@ double tabla();
 
 double workSpace();
 
-double limpiarws();
+double eliminarWs();
 
 double cargar(char *ficheiro);
 

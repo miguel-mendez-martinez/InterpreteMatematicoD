@@ -20,9 +20,9 @@ void yyerror (char *s);
 %start start
 
 %token <number> NUM
-%token <string> CONS VAR FUNC CMND0 CMND1 FICHERO LIB
+%token <string> CONS VAR FUNC CMND0 CMND1 CMND2 FICHERO LIB
 
-%type <number> exp asig cmnd
+%type <number> exp asig cmnd 
 
 %left '-' '+'
 %left '*' '/'
@@ -96,7 +96,9 @@ line:  '\n'                { printf(CYAN">"RESET" "); }
                                 if(isnan($1) && !error){
                                     printf(ROJO"NAN DETECTADO"RESET"\n\n");
                                 }
-                                if(!script){
+                                if(!isnan($1)){
+                                    printf(VERDE"%lf"RESET"\n\n", $1);
+                                }else if(!script){
                                     printf(CYAN">"RESET" ");
                                 }
                                 error = 1;
@@ -105,7 +107,9 @@ line:  '\n'                { printf(CYAN">"RESET" "); }
                                 if(isnan($1) && !error){
                                     printf(ROJO"NAN DETECTADO"RESET"\n\n");printf("NAN DETECTADO");
                                 }
-                                if(!script){
+                                if(!isnan($1)){
+                                    printf(VERDE"%lf"RESET"\n\n", $1);
+                                }else if(!script){
                                     printf(CYAN">"RESET" ");
                                 }
                                 error = 1;
@@ -260,6 +264,11 @@ cmnd:   CMND0               {
                                 free($1);
                                 free($3);
                             }
+        | CMND2 '(' CONS ')' {
+                                comp = buscarLexema($1);
+                                $$ = ejecutaFuncionMatematica($1, $3);
+                                free($1);
+                            }
         | CMND1 exp         {
                                 printf(ROJO"MAL FORMATO DE FICHERO"RESET"\n\n");
                                 error = 1;
@@ -276,9 +285,9 @@ void yyerror(char *s) {
 void cambiarEcho(int valor) {
     doEcho = valor;
     if (doEcho) { 
-        printf(VERDE"Echo activado."RESET"\n\n");
+        printf(VERDE"Echo activado, se imprimirán los resultados."RESET"\n\n");
     }else{
-        printf(ROJO"Echo desactivado."RESET"\n\n");
+        printf(ROJO"Echo desactivado, no se imrpimiran los resultados."RESET"\n\n");
     }
 }
 

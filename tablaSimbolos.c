@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "abb.h"
 #include "interpreteMat.h"
 #include "definiciones.h"
@@ -27,8 +28,15 @@ void initTabla(){
             {"echo", CMND0, .valor.funcptr=echo},
             {"tabla", CMND0, .valor.funcptr=tabla},
             {"ws", CMND0, .valor.funcptr=workSpace},
-            {"limpiarws", CMND0, .valor.funcptr=limpiarws},
-            {"cargar", CMND1, .valor.funcptr=cargar},
+            {"eliminarWs", CMND0, .valor.funcptr=eliminarWs},
+            {"loadFichero", CMND1, .valor.funcptr=cargar},
+            //cargamos las funciones matematicas
+            {"sin", CMND2, .valor.funcptr=sin},
+            {"cos", CMND2, .valor.funcptr=cos},
+            {"tan", CMND2, .valor.funcptr=tan},
+            {"log", CMND2, .valor.funcptr=log10},
+            {"ln", CMND2, .valor.funcptr=log},
+            {"exp", CMND2, .valor.funcptr=exp}
     };
 
     //insertamos las palabras reservadas en la tabla de simbolos
@@ -42,6 +50,15 @@ void initTabla(){
 void destruyeTabla(){
     //se llama a la funcion destruir de la libreria abb
     destruir(&tSimbolos);
+}
+
+double ejecutaFuncionMatematica(char *operacion, char *expresion){
+    tipoelem elemento;
+
+    elemento = buscarLexema(operacion);
+
+    return elemento.valor.funcptr(expresion);
+    
 }
 
 
