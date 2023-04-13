@@ -4,6 +4,7 @@
 #include "tablaSimbolos.h"
 
 CompLexico comp;
+CompLexico comp2;
 /*Flags para el interprete, de manera que sepa que hacer*/
 int doEcho = 1;
 int script = 0;
@@ -20,7 +21,7 @@ void yyerror (char *s);
 %start start
 
 %token <number> NUM
-%token <string> CONS VAR FUNC CMND0 CMND1 CMND2 FICHERO LIB
+%token <string> CONS VAR FUNC CMND0 CMND1 FICHERO 
 
 %type <number> exp asig cmnd 
 
@@ -93,33 +94,35 @@ line:  '\n'                { printf(CYAN">"RESET" "); }
                                 error = 0;
                             }
         | cmnd '\n'         {
-                                if(isnan($1) && !error){
+                                if (isnan($1) && !error) {
                                     printf(ROJO"NAN DETECTADO"RESET"\n\n");
                                 }
-                                if(!isnan($1)){
-                                    printf(VERDE"%lf"RESET"\n\n", $1);
-                                }else if(!script){
+                                if (!script) {
                                     printf(CYAN">"RESET" ");
                                 }
-                                error = 1;
+                                error = 0;
                             }
         | cmnd ';' '\n'     {
-                                if(isnan($1) && !error){
-                                    printf(ROJO"NAN DETECTADO"RESET"\n\n");printf("NAN DETECTADO");
+                                if (isnan($1) && !error) {
+                                    printf(ROJO"NAN DETECTADO"RESET"\n\n");
                                 }
-                                if(!isnan($1)){
-                                    printf(VERDE"%lf"RESET"\n\n", $1);
-                                }else if(!script){
+                                if (!script) {
                                     printf(CYAN">"RESET" ");
                                 }
-                                error = 1;
+                                error = 0;
                             }
 ;
 
 exp:    NUM
         | CONS              {
                                 comp = buscarLexema($1);
-                                $$ = comp.valor.var;
+                                if(comp.lexema != NULL){
+                                    $$ = comp.valor.var;
+                                }else{
+                                    printf(ROJO"CONSTANTE NO DEFINIDA"RESET"\n\n");
+                                    error = 1;
+                                    $$ = NAN;
+                                }
                                 free($1);
                             }
         | VAR               {
@@ -132,6 +135,12 @@ exp:    NUM
                                     $$ = NAN;
                                 }
                                 free($1);
+                            }
+        | FUNC '(' exp ')'  {
+                                comp = buscarLexema($1);
+                                free($1);
+                                $$ = (*(comp.valor.funcptr))($3);
+                            
                             }
         | '-' exp %prec NEG {
                                 if(!isnan($2)){
@@ -263,11 +272,6 @@ cmnd:   CMND0               {
                                 (*(comp.valor.funcptr))($3);
                                 free($1);
                                 free($3);
-                            }
-        | CMND2 '(' CONS ')' {
-                                comp = buscarLexema($1);
-                                $$ = ejecutaFuncionMatematica($1, $3);
-                                free($1);
                             }
         | CMND1 exp         {
                                 printf(ROJO"MAL FORMATO DE FICHERO"RESET"\n\n");
