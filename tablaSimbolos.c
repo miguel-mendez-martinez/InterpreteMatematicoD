@@ -31,12 +31,12 @@ void initTabla(){
             {"eliminarWs", CMND0, .valor.funcptr=eliminarWs},
             {"loadFichero", CMND1, .valor.funcptr=cargar},
             //cargamos las funciones matematicas
-            {"sin", CMND2, .valor.funcptr=sin},
-            {"cos", CMND2, .valor.funcptr=cos},
-            {"tan", CMND2, .valor.funcptr=tan},
-            {"log", CMND2, .valor.funcptr=log10},
-            {"ln", CMND2, .valor.funcptr=log},
-            {"exp", CMND2, .valor.funcptr=exp}
+            {"sin", FUNC, .valor.funcptr=sin},
+            {"cos", FUNC, .valor.funcptr=cos},
+            {"tan", FUNC, .valor.funcptr=tan},
+            {"log", FUNC, .valor.funcptr=log10},
+            {"ln", FUNC, .valor.funcptr=log},
+            {"exp", FUNC, .valor.funcptr=exp}
     };
 
     //insertamos las palabras reservadas en la tabla de simbolos
@@ -77,7 +77,7 @@ void _printTabla(abb A){
             printf("    %-6s\t\t    %-6s\t\t%-6lf\n", "Constante", E.lexema, E.valor.var);
             break;
         case FUNC:
-            printf("    %-6s\t\t    %-6s\t\t%-6s\n", "Función", E.lexema, "NULL");
+            printf("    %-6s\t\t    %-6s\t\t%-3s();\n", "Función", E.lexema, E.lexema);
             break;
         
         default:
@@ -101,27 +101,19 @@ void _printWS(abb A){
     }
 }
 
-void _eliminaVarRecursiva(abb A, int *stop){
+void _eliminaVarRecursiva(abb A){
     tipoelem E;
-    if(!es_vacio(A) && !*stop){
+    if(!es_vacio(A)){
         //buscamos la rama izq
-        _eliminaVarRecursiva(izq(A), stop);
+        _eliminaVarRecursiva(izq(A));
         leer(A, &E);
         //si se encuentra una variable se elimina, si ya ha sido encontrada y se encuentra otra, la flag stop evita que se eliminen variables de mas cada vez que se llama a esta función
-        if(E.valorLexico == VAR && !*stop){
-            suprimir(&A, E);
-            *stop = 1;
+        if(E.valorLexico == VAR){
+            suprimir(&tSimbolos, E);
         }
-        if(!*stop){
-            //si no se ha encontrado seguimos buscando por la derecha
-            _eliminaVarRecursiva(der(A), stop);
-        }
+        _eliminaVarRecursiva(der(A));
+        
     }
-}
-
-void _eliminaVar(){
-    int stop = 0;
-    _eliminaVarRecursiva(tSimbolos, &stop);
 }
 
 // Función que busca un lexema concreto.
@@ -193,9 +185,6 @@ void printWorkSpace(){
 }
 
 void eliminarWorkSpace(){
-    for(int i=0; i < num_variables; i++){
-        _eliminaVar();
-    }
-    num_variables = 0;
+    _eliminaVarRecursiva(tSimbolos);
 }
 

@@ -22,7 +22,6 @@ void interpreteMatD(char *nombreFichero){
             cargar(nombreFichero);
         }
     }
-    printTabla();
 
     yyparse(); //funcion que activa lo implementado en byson
 }
