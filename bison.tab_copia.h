@@ -56,8 +56,9 @@ extern int yydebug;
     CMND0 = 262,
     CMND1 = 263,
     CMND2 = 264,
-    FICHERO = 265,
-    NEG = 266
+    LOAD = 265,
+    FICHERO = 266,
+    NEG = 267
   };
 #endif
 

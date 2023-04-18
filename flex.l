@@ -39,6 +39,7 @@ GENERAL_COMMENTS     \/\*([^*]|(\*+[^*/]))*\*+\/
 /* Componentes lexicos */
 
 IGNORAR             [ \t]
+ESPACIOS            {IGNORAR}+
 
 IDENTIFIER          ({LETTER}|\_)({LETTER}|{DECIMAL_DIGIT}|\_)*
 
@@ -46,7 +47,7 @@ INDIVIDUAL          [+\-\*/%&\|^<>=!~([{,\.)\]};:\n\r]
 
 NUMERO              {ENTERO}|{DECIMAL}
 
-FICHERO             ({LETTER}|{DECIMAL_DIGIT})+(\.({LETTER}|{DECIMAL_DIGIT})+)+|(\/({LETTER}|{DECIMAL_DIGIT})*)*\/({LETTER}|{DECIMAL_DIGIT})+(\.({LETTER}|{DECIMAL_DIGIT})+)+
+FICHERO             ({LETTER}|\_|\.\/|\/|\.\.\/)({LETTER}|{DECIMAL_DIGIT}|\_|\.\/|\/|\.\.\/)*\.({LETTER}|{DECIMAL_DIGIT}|\_)+
 
 /* Declaramos la función que se usará para contabilizar cuantos comentarios se abren */
 %x NESTED_COMMENT 
@@ -57,6 +58,7 @@ FICHERO             ({LETTER}|{DECIMAL_DIGIT})+(\.({LETTER}|{DECIMAL_DIGIT})+)+|
 %%
 
 {IGNORAR}
+{ESPACIOS}
 {LINE_COMMENT}
 {GENERAL_COMMENTS}
 
@@ -86,7 +88,9 @@ FICHERO             ({LETTER}|{DECIMAL_DIGIT})+(\.({LETTER}|{DECIMAL_DIGIT})+)+|
                         return NUM; 
                     }
 {INDIVIDUAL}        return (int) *yytext;
-{FICHERO}           yylval.cadena = strdup(yytext); return FICHERO;
+{FICHERO}           {
+                        yylval.cadena = strdup(yytext); return FICHERO;
+                    }
 
 .                  printf(ROJO"LEXEMA DESCONOCIDO"RESET"\n\n");
 

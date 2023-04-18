@@ -37,6 +37,5 @@ void printWorkSpace();
 
 void eliminarWorkSpace();
 
-double ejecutaFuncionMatematica(char *operacion, char *expresion);
 
 #endif

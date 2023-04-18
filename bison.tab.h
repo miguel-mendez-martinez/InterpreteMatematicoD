@@ -55,8 +55,10 @@ extern int yydebug;
     FUNC = 261,
     CMND0 = 262,
     CMND1 = 263,
-    FICHERO = 264,
-    NEG = 265
+    CMND2 = 264,
+    LOAD = 265,
+    FICHERO = 266,
+    NEG = 267
   };
 #endif
 
@@ -64,12 +66,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 16 "bison.y"
+#line 18 "bison.y"
 
-    double number;
-    char *string;
+    double numero;
+    char *cadena;
 
-#line 73 "bison.tab.h"
+#line 74 "bison.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -79,6 +81,10 @@ typedef union YYSTYPE YYSTYPE;
 
 
 extern YYSTYPE yylval;
+
+void cambiarEcho(int valor);
+
+void ejecutandoScript(int valor);
 
 int yyparse (void);
 

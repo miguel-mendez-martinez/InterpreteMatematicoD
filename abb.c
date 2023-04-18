@@ -175,17 +175,20 @@ void suprimir(abb *A, tipoelem E) {
     } else if (comp > 0) { //(E > (*A)->info) {
         suprimir(&(*A)->der, E);
     } else if (es_vacio((*A)->izq) && es_vacio((*A)->der)) { //no tiene subarboles
+        free((*A)->info.lexema);
         free(*A);
         *A = NULL;
     } else if (es_vacio((*A)->izq)) { // existe un subarbol izq
         //printf("Tiene subarbol izq.\n");
         aux = *A;
         *A = (*A)->der;
+        free(aux->info.lexema);
         free(aux);
     } else if (es_vacio((*A)->der)) { // existe un subarbol der
         //printf("Tiene subarbol der.\n");
         aux = *A;
         *A = (*A)->izq;
+        free(aux->info.lexema);
         free(aux);
     } else { //existen subarboles a ambos lados, busco mínimo subárbol derecho, pues voy a susututuir el nodo con el mínimo del subárbol derecho
         //printf("Hola voy a suprimir minimos.\n");

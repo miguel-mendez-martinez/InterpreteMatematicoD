@@ -29,7 +29,7 @@ void initTabla(){
             {"tabla", CMND0, .valor.funcptr=tabla},
             {"ws", CMND0, .valor.funcptr=workSpace},
             {"eliminarWs", CMND0, .valor.funcptr=eliminarWs},
-            {"loadFichero", CMND1, .valor.funcptr=cargar},
+            {"cargar", FUNC, .valor.funcptr=cargar},
             //cargamos las funciones matematicas
             {"sin", FUNC, .valor.funcptr=sin},
             {"cos", FUNC, .valor.funcptr=cos},
@@ -51,16 +51,6 @@ void destruyeTabla(){
     //se llama a la funcion destruir de la libreria abb
     destruir(&tSimbolos);
 }
-
-double ejecutaFuncionMatematica(char *operacion, char *expresion){
-    tipoelem elemento;
-
-    elemento = buscarLexema(operacion);
-
-    return elemento.valor.funcptr(expresion);
-    
-}
-
 
 //funcion recursiva privada que recorre en profundidad la tabla de simbolos
 void _printTabla(abb A){
