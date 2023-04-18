@@ -22,7 +22,7 @@ void yyerror (char *s);
 %start start
 
 %token <number> NUM
-%token <cadena> CONS VAR FUNC CMND0 CMND1 LOAD FICHERO 
+%token <cadena> CONS VAR FUNC CMND0 FICHERO 
 
 %type <number> expresion asig comando fnc op
 
@@ -216,11 +216,9 @@ op:
 fnc:    FUNC '(' expresion ')'  {
                                     comp = buscarLexema($1);
                                     free($1);
-                                    printf("estoy func\n");
                                     $$ = (*(comp.valor.funcptr))($3);
                                 }
         | FUNC '(' FICHERO ')'  {   
-                                    printf("hola\n");
                                     comp = buscarLexema($1);
                                     free($1);
                                 }

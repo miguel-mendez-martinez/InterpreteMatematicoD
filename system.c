@@ -50,7 +50,7 @@ double help(){
            "\t\t\t\t\t\t\targumentos: './interMatD23 FICHERO'.\n\n"
            "\t\t\t- clear\t\t\t\tLimpia la terminal.\n\n"
            "\t\t\t- echo\t\t\t\tActiva o Desactiva la impresión de los resultados. Por defecto está activada.\n\n"
-           "\t\t\t- limparws\t\t\tLimpa el espacio de traballo.\n\n"
+           "\t\t\t- eliminarWs\t\t\tLimpa el espacio de traballo.\n\n"
            "\t\t\t- salir\t\t\t\tSale del intérprete, finalizando el programa.\n\n"
            "\t\t\t- tabla\t\t\t\tMuestra la tabla de simbolos, que tiene los comandos, constantes, funciones usadas\n"
            "\t\t\t\t\t\t\ty en medio de ejecuciones, si se han creado, variables.\n\n"

@@ -54,11 +54,8 @@ extern int yydebug;
     VAR = 260,
     FUNC = 261,
     CMND0 = 262,
-    CMND1 = 263,
-    CMND2 = 264,
-    LOAD = 265,
-    FICHERO = 266,
-    NEG = 267
+    FICHERO = 263,
+    NEG = 264
   };
 #endif
 

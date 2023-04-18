@@ -92,7 +92,7 @@ FICHERO             ({LETTER}|\_|\.\/|\/|\.\.\/)({LETTER}|{DECIMAL_DIGIT}|\_|\.\
                         yylval.cadena = strdup(yytext); return FICHERO;
                     }
 
-.                  printf(ROJO"LEXEMA DESCONOCIDO"RESET"\n\n");
+.                   printf(ROJO"LEXEMA DESCONOCIDO"RESET"\n\n");
 
 <<EOF>>		        ejecutandoScript(0); fclose(yyin); yyrestart(stdin);
 

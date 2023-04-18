@@ -1,0 +1,17 @@
+Este es un interprete matematico.
+
+Para compilar se tiene que hacer una sucesión de 3 comandos:
+
+-make flex, para compilar el analizador lexico
+
+-make bison, para compilar el analizador sintáctico
+
+-make, para compilar y generar el ejecutable incluyendo los archivos generados por bison y flex
+
+Una vez tenemos el ejecutable interMatD23, lo podemos ejecutar con el ./.
+
+Tiene una opción -h para mostrar la ayuda directamente, y si pones un Archivo buscará el archivo y tratará de ejecutarlo.
+
+
+Hay unos problemas con la función cargar, no entiendo aun muy bien porque no funciona cuando se le pone un archvio existente, cuando no existe lo detecta y 
+genera el error adecuado, pero cuando existe simplemente pasa de el.
